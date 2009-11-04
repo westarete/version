@@ -23,9 +23,9 @@ features.
 
 This plugin is fairly simple and makes some naïve assumptions:
 
- * the project uses git and should push and pull from origin master
- * you're using rspec
- * you're using cucumber
+* the project uses git and should push and pull from origin master
+* you're using rspec
+* you're using cucumber
  
 == Usage
 
@@ -55,15 +55,15 @@ v1.0.0, run:
   
 Each of these tasks will do the following:
 
- * Run the app's specs and features to ensure that they all pass
- * Pull the latest changes from origin master
- * Write the new version to the VERSION file
- * Check the VERSION file into git
- * Create a new tag with the version number
- * Push to origin master, including tags
+* Run the app's specs and features to ensure that they all pass
+* Pull the latest changes from origin master
+* Write the new version to the VERSION file
+* Check the VERSION file into git
+* Create a new tag with the version number
+* Push to origin master, including tags
 
 == To Do
 
- * Figure out how to annotate tags with a message. Doesn't appear to be 
-   supported by the git gem.
- * Modify Rakfile to run specs.
+* Figure out how to annotate tags with a message. Doesn't appear to be 
+  supported by the git gem.
+* Modify Rakfile to run specs.
