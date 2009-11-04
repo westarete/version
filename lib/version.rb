@@ -1,10 +1,3 @@
-begin
-  require 'git'
-rescue LoadError
-  puts "You must have the \"git\" gem installed to make a release."
-  exit
-end
-
 # A class that represents and manipulates the release version for this
 # application.
 class Version
@@ -61,6 +54,7 @@ class Version
   
   # Save the version back to file, overwriting the previous value, if any.
   def save
+    require 'git'
     git = Git.open('.', :log => Logger.new($stdout))
     git.pull # origin master
     write_version_to_file
@@ -69,6 +63,8 @@ class Version
     git.add_tag(self.to_s)
     git.push('origin', 'master', true)  # including tags
     notify_campfire(git)
+  rescue LoadError
+    raise LoadError, "You must have the git gem installed to make a release."
   end
   
   protected
