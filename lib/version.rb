@@ -26,11 +26,16 @@ class Version
     end
   end
   
+  # The version number, without the leading "v". See also #to_s.
+  def number
+    "#{@major}.#{@minor}.#{@patch}"
+  end
+  
   # The string representation of the version number, e.g. "v1.2.3". It will 
   # always consist of a starting "v" followed immediately by three integers,
   # separated by dots.
   def to_s
-    "v#{@major}.#{@minor}.#{@patch}"
+    "v#{number}"
   end
 
   # Increase the major number of the version.
@@ -69,11 +74,11 @@ class Version
   protected
   
   def read_version_from_file
-    if File.size(Version.path) > 33
+    if File.size(Version.path) > 32
       raise "the version file is too large to be valid"
     end
     File.open(Version.path) do |f|
-      if f.read =~ /^v(\d+)\.(\d+)\.(\d+)\s*$/
+      if f.read =~ /^(\d+)\.(\d+)\.(\d+)\s*$/
         @major = $1.to_i
         @minor = $2.to_i
         @patch = $3.to_i
@@ -85,7 +90,7 @@ class Version
   
   def write_version_to_file
     File.open(Version.path, 'w') do |f|
-      f.write(self.to_s)
+      f.write(self.number)
     end
   end
   

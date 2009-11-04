@@ -13,6 +13,11 @@ describe Version do
       File.stub!(:exist? => false)
       @version = Version.new
     end
+    describe "#number" do
+      it "should return 0.0.0" do
+        @version.number.should == '0.0.0'
+      end
+    end
     describe "#to_s" do
       it "should return v0.0.0" do
         @version.to_s.should == 'v0.0.0'
@@ -35,7 +40,7 @@ describe Version do
   
   describe "when there is a whole lot of content in the version file" do
     before(:each) do
-      set_up_test_version_file('v1.2.3' + ('3'*100))
+      set_up_test_version_file('1.2.3' + ('3'*100))
     end
     it "should raise an exception" do
       lambda {
@@ -53,13 +58,18 @@ describe Version do
   
   describe "when there is a valid version stored in the version file" do
     before(:each) do
-      set_up_test_version_file('v1.2.3')
+      set_up_test_version_file('1.2.3')
       @version = Version.new
     end
     describe ".new" do
       it "should read from the version file" do
         File.should_receive(:open).with(Version.path)
         Version.new
+      end
+    end
+    describe "#number" do
+      it "should return the version number" do
+        @version.number.should == '1.2.3'
       end
     end
     describe "#to_s" do
