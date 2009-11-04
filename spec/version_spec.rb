@@ -56,6 +56,16 @@ describe Version do
     end
   end
   
+  describe "when there is trailing whitespace with the version" do
+    before(:each) do
+      set_up_test_version_file("1.2.3\n")
+      @version = Version.new
+    end
+    it "should still be able to parse the version properly" do
+      @version.to_s.should == 'v1.2.3'
+    end
+  end
+  
   describe "when there is a valid version stored in the version file" do
     before(:each) do
       set_up_test_version_file('1.2.3')
