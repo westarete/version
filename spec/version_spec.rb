@@ -1,6 +1,10 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe Version do
+  before(:each) do
+    Rails = stub('Rails') if ! defined?(Rails)
+    Rails.stub!(:root => stub('root', :join => '/tmp/test_version_file'))
+  end
   
   describe ".path" do
     it "should return a pathname object to the version file" do
