@@ -2,8 +2,9 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 describe Version do
   before(:each) do
+    RAILS_ROOT = '/tmp' if ! defined?(RAILS_ROOT)
     Rails = stub('Rails') if ! defined?(Rails)
-    Rails.stub!(:root => stub('root', :join => '/tmp/test_version_file'))
+    Rails.stub!(:root => stub('root', :join => "#{RAILS_ROOT}/VERSION"))
   end
   
   describe ".path" do
