@@ -106,7 +106,7 @@ describe Version do
       end
       it "should write the version" do
         @version.save
-        @io.string.should == 'v1.2.3'
+        @io.string.should == '1.2.3'
       end
     end
     describe "#bump_major" do
