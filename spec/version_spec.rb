@@ -97,6 +97,8 @@ describe Version do
         # Substitute our own IO object to capture the output.
         @io = StringIO.new
         File.stub!(:open).and_yield(@io)
+        stub_git
+        stub_campfire
       end
       it "should write to the version file" do
         File.should_receive(:open).with(Version.path, 'w')
@@ -154,6 +156,38 @@ describe Version do
     File.stub!(:size => string.length)
     io = stub('io', :read => string)
     File.stub!(:open).and_yield(io)
+  end
+  
+  # Neuter the git calls so that they don't do anything.
+  def stub_git
+    require 'git'
+    require 'logger'
+    git = stub('git', 
+      :pull => true,
+      :add => true,
+      :commit => true,
+      :add_tag => true,
+      :push => true,
+      :config => {
+        'user.name' => 'Henry', 
+        'remote.origin.url' => '..../myproject.git'
+      }
+    )
+    Git.stub!(:open).and_return(git)    
+  end
+  
+  def stub_campfire
+    require 'tinder'
+    room = stub('room',
+      :speak => true,
+      :leave => true
+    )
+    campfire = stub('campfire',
+      :login => true,
+      :find_room_by_name => room
+    )
+    Tinder::Campfire.stub!(:new).and_return(campfire)
+    YAML::stub!(:load_file => {})
   end
   
 end
