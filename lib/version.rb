@@ -102,7 +102,7 @@ class Version
       return
     end
     
-    git_config['remote.origin.url'] =~ /\/([^\/]+)\.git$/
+    git_config['remote.origin.url'] =~ /[\/:]?([^\/]+)\.git$/
     application = $1
     if application.nil?
       puts "\nCouldn't determine the application name from the git config. Skipping campfire notification.\n\n"
